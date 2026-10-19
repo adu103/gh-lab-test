@@ -1,0 +1,47 @@
+:root {
+  font-family: 'Segoe UI', Aptos, Calibri, -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  color: #24292f;
+  background: #f6f8fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --background: #f6f8fa;
+  --surface: #ffffff;
+  --input: #ffffff;
+  --border: #d8dee4;
+  --border-strong: #8c959f;
+  --text: #24292f;
+  --text-muted: #57606a;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --accent-soft: #ddf4ff;
+  --accent-border: #54aeff;
+  --accent-contrast: #ffffff;
+  --success: #1a7f37;
+  --success-soft: #dafbe1;
+  --warning: #9a6700;
+  --warning-soft: #fff8c5;
+  --danger: #cf222e;
+  --danger-soft: #ffebe9;
+  --focus: rgba(9, 105, 218, 0.32);
+  --shadow: rgba(31, 35, 40, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}

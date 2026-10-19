@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Software with GitHub and GitHub Copilot Lab</title>
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("scoutTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--cp-bg);
+        color: var(--cp-text);
+        font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 0;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      a {
+        color: var(--cp-link);
+      }
+
+      code,
+      pre {
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .topbar {
+        align-items: center;
+        background: var(--cp-panel-strong);
+        border-bottom: 1px solid var(--cp-border);
+        display: flex;
+        gap: 20px;
+        height: 68px;
+        justify-content: space-between;
+        padding: 0 28px;
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+
+      .brand {
+        align-items: center;
+        display: flex;
+        gap: 12px;
+        font-weight: 750;
+      }
+
+      .brand-mark {
+        align-items: center;
+        background: var(--cp-accent);
+        border-radius: 10px;
+        color: var(--cp-accent-fg);
+        display: flex;
+        height: 36px;
+        justify-content: center;
+        width: 36px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr);
+        margin: 0 auto;
+        max-width: 1440px;
+      }
+
+      .sidebar {
+        border-right: 1px solid var(--cp-border);
+        height: calc(100vh - 68px);
+        overflow-y: auto;
+        padding: 28px 18px;
+        position: sticky;
+        top: 68px;
+      }
+
+      .sidebar-label,
+      .eyebrow {
+        color: var(--cp-accent);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .sidebar ol {
+        display: grid;
+        gap: 6px;
+        list-style: none;
+        margin: 16px 0 28px;
+        padding: 0;
+      }
+
+      .sidebar a {
+        align-items: center;
+        border-radius: 10px;
+        color: var(--cp-text-muted);
+        display: flex;
+        font-size: 0.9rem;
+        gap: 10px;
+        padding: 9px 10px;
+        text-decoration: none;
+      }
+
+      .sidebar a:hover {
+        background: var(--cp-accent-soft);
+        color: var(--cp-text);
+      }
+
+      .nav-number {
+        align-items: center;
+        border: 1px solid var(--cp-border);
+        border-radius: 50%;
+        display: flex;
+        font-family: Consolas, "Courier New", Courier, monospace;
+        font-size: 0.72rem;
+        height: 24px;
+        justify-content: center;
+        width: 24px;
+      }
+
+      .sidebar-card {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .sidebar-card p {
+        color: var(--cp-text-muted);
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin: 8px 0 0;
+      }
+
+      main {
+        max-width: 1050px;
+        padding: 52px clamp(28px, 6vw, 80px) 100px;
+      }
+
+      .hero {
+        border-bottom: 1px solid var(--cp-border);
+        padding-bottom: 52px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 7vw, 5.4rem);
+        letter-spacing: -0.06em;
+        line-height: 0.98;
+        margin: 18px 0 24px;
+        max-width: 900px;
+      }
+
+      .hero > p {
+        color: var(--cp-text-muted);
+        font-size: 1.2rem;
+        line-height: 1.65;
+        max-width: 760px;
+      }
+
+      .hero-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .badge {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 999px;
+        color: var(--cp-text-muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 8px 12px;
+      }
+
+      .repo-setup {
+        background: var(--cp-accent-soft);
+        border: 1px solid var(--cp-accent);
+        border-radius: 16px;
+        margin-top: 32px;
+        padding: 22px;
+      }
+
+      .repo-setup label {
+        display: block;
+        font-size: 0.86rem;
+        font-weight: 750;
+        margin-bottom: 8px;
+      }
+
+      .repo-input-row {
+        display: flex;
+        gap: 10px;
+      }
+
+      .repo-input-row input {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 10px;
+        color: var(--cp-text);
+        flex: 1;
+        min-width: 0;
+        padding: 11px 12px;
+      }
+
+      .button {
+        align-items: center;
+        background: var(--cp-accent);
+        border: 1px solid var(--cp-accent);
+        border-radius: 10px;
+        color: var(--cp-accent-fg);
+        cursor: pointer;
+        display: inline-flex;
+        font-weight: 750;
+        gap: 8px;
+        justify-content: center;
+        padding: 10px 14px;
+        text-decoration: none;
+      }
+
+      .button:hover {
+        background: var(--cp-accent-hover);
+        color: var(--cp-accent-fg);
+      }
+
+      .button.secondary {
+        background: var(--cp-surface);
+        border-color: var(--cp-border-strong);
+        color: var(--cp-text);
+      }
+
+      .button.secondary:hover {
+        background: var(--cp-surface-soft);
+      }
+
+      .repo-status {
+        color: var(--cp-text-muted);
+        font-size: 0.82rem;
+        margin: 10px 0 0;
+      }
+
+      .phase {
+        border-bottom: 1px solid var(--cp-border);
+        padding: 64px 0;
+        scroll-margin-top: 68px;
+      }
+
+      .phase-heading {
+        align-items: start;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 56px 1fr;
+        margin-bottom: 28px;
+      }
+
+      .phase-number {
+        align-items: center;
+        background: var(--cp-accent);
+        border-radius: 14px;
+        color: var(--cp-accent-fg);
+        display: flex;
+        font-family: Consolas, "Courier New", Courier, monospace;
+        font-size: 1.1rem;
+        font-weight: 800;
+        height: 52px;
+        justify-content: center;
+      }
+
+      .phase h2 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        letter-spacing: -0.04em;
+        margin: 2px 0 8px;
+      }
+
+      .phase-heading p {
+        color: var(--cp-text-muted);
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .step {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        margin-top: 16px;
+        padding: 22px;
+        box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      }
+
+      .step h3 {
+        font-size: 1.08rem;
+        margin: 0;
+      }
+
+      .step > p,
+      .step li {
+        color: var(--cp-text-muted);
+        line-height: 1.65;
+      }
+
+      .task {
+        display: block;
+      }
+
+      .task > span:first-child {
+        display: block;
+      }
+
+      .prompt {
+        background: var(--cp-bg-elevated);
+        border: 1px solid var(--cp-border);
+        border-left: 4px solid var(--cp-accent);
+        border-radius: 10px;
+        margin: 16px 0;
+        position: relative;
+      }
+
+      .prompt pre {
+        color: var(--cp-text);
+        font-size: 0.86rem;
+        line-height: 1.6;
+        margin: 0;
+        overflow-x: auto;
+        padding: 18px 94px 18px 18px;
+        white-space: pre-wrap;
+      }
+
+      .copy-button {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 8px;
+        color: var(--cp-text);
+        cursor: pointer;
+        font-size: 0.75rem;
+        font-weight: 750;
+        padding: 7px 10px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+
+      .callout {
+        background: var(--cp-surface-soft);
+        border: 1px solid var(--cp-border);
+        border-radius: 12px;
+        margin: 18px 0;
+        padding: 16px 18px;
+      }
+
+      .callout strong {
+        color: var(--cp-accent);
+      }
+
+      .callout p {
+        color: var(--cp-text-muted);
+        line-height: 1.6;
+        margin: 6px 0 0;
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .challenge {
+        background: var(--cp-accent-soft);
+        border: 1px solid var(--cp-accent);
+        border-radius: 12px;
+        margin-top: 16px;
+        padding: 18px;
+      }
+
+      .challenge h4 {
+        margin: 0 0 8px;
+      }
+
+      .challenge p,
+      .challenge li {
+        color: var(--cp-text-muted);
+        line-height: 1.6;
+      }
+
+      details {
+        border-top: 1px solid var(--cp-border);
+        margin-top: 18px;
+        padding-top: 16px;
+      }
+
+      summary {
+        color: var(--cp-link);
+        cursor: pointer;
+        font-weight: 750;
+      }
+
+      .comparison {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .comparison article {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        padding: 22px;
+      }
+
+      .comparison h3 {
+        margin-top: 0;
+      }
+
+      .reflection {
+        background: var(--cp-accent);
+        border-radius: 16px;
+        color: var(--cp-accent-fg);
+        padding: 28px;
+      }
+
+      .reflection h2 {
+        margin-top: 0;
+      }
+
+      .reflection ul {
+        line-height: 1.8;
+      }
+
+      .toast {
+        background: var(--cp-text);
+        border-radius: 10px;
+        bottom: 24px;
+        color: var(--cp-bg);
+        font-weight: 700;
+        opacity: 0;
+        padding: 12px 16px;
+        pointer-events: none;
+        position: fixed;
+        right: 24px;
+        transform: translateY(10px);
+        transition: 160ms ease;
+        z-index: 30;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          padding: 0 16px;
+        }
+
+        .brand span:last-child {
+          display: none;
+        }
+
+        main {
+          padding: 36px 18px 72px;
+        }
+
+        .repo-input-row,
+        .comparison {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .phase-heading {
+          grid-template-columns: 44px 1fr;
+        }
+
+        .phase-number {
+          height: 44px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">GH</span>
+        <span>Build Software with GitHub + Copilot</span>
+      </div>
+      <a class="button secondary source-repo-link" href="#" target="_blank" rel="noreferrer">View starter repository →</a>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar" aria-label="Lab sections">
+        <span class="sidebar-label">Lab guide</span>
+        <ol>
+          <li><a href="#setup"><span class="nav-number">0</span>Set up your workspace</a></li>
+          <li><a href="#context"><span class="nav-number">1</span>Give Copilot context</a></li>
+          <li><a href="#story-a-plan"><span class="nav-number">2</span>Story A · Plan</a></li>
+          <li><a href="#story-a-build"><span class="nav-number">3</span>Story A · Build</a></li>
+          <li><a href="#story-a-review"><span class="nav-number">4</span>Story A · Review</a></li>
+          <li><a href="#story-b"><span class="nav-number">5</span>Story B · Full workflow</a></li>
+          <li><a href="#wrap"><span class="nav-number">6</span>Compare and reflect</a></li>
+        </ol>
+        <div class="sidebar-card">
+          <strong>Workshop scope</strong>
+          <p>From an idea to a reviewed pull request. Deployment and security operations belong in the next lab.</p>
+        </div>
+      </nav>
+
+      <main>
+        <section class="hero">
+          <span class="eyebrow">Hands-on lab</span>
+          <h1>Build software, not just code.</h1>
+          <p>
+            Take a small service-request application from rough ideas to well-shaped issues,
+            implementation plans, working pull requests, and Copilot-assisted reviews.
+          </p>
+          <div class="hero-badges">
+            <span class="badge">90–120 minutes</span>
+            <span class="badge">GitHub Codespaces</span>
+            <span class="badge">Copilot coding agent</span>
+            <span class="badge">IDE agent mode</span>
+            <span class="badge">Copilot code review</span>
+          </div>
+
+          <div class="repo-setup">
+            <strong>This page is the lab. The linked GitHub repository is the workspace.</strong>
+            <p class="repo-status">
+              You will keep this page open for instructions, fork the starter repository into your own GitHub account,
+              and complete all work in your fork. Links in this lab point to the starter repository hosted by
+              <strong>adu103</strong>.
+            </p>
+            <div class="action-row">
+              <a class="button source-repo-link" href="#" target="_blank" rel="noreferrer">View the starter repository →</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="phase" id="setup">
+          <div class="phase-heading">
+            <div class="phase-number">0</div>
+            <div>
+              <span class="eyebrow">Get ready · 10 minutes</span>
+              <h2>Fork it, open it, understand it.</h2>
+              <p>Everyone works in their own fork and Codespace, with the same starting point.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <strong>Before you begin</strong>
+            <p>
+              You need a GitHub account with Copilot, access to Codespaces, and permission to use
+              Copilot coding agent and Copilot code review in your fork. Confirm that these are
+              available before starting the lab.
+            </p>
+          </div>
+
+          <div class="step">
+            <h3>Step 0.1 · Fork the starter repository</h3>
+            <ul>
+              <li>Open the starter repository using the button below.</li>
+              <li>Select <strong>Fork</strong> in the upper-right corner.</li>
+              <li>Choose your personal GitHub account as the owner.</li>
+              <li>Keep the repository name and the <strong>Copy the main branch only</strong> option.</li>
+              <li>Select <strong>Create fork</strong> and wait for GitHub to open your copy.</li>
+            </ul>
+            <div class="action-row">
+              <a class="button source-repo-link" href="#" target="_blank" rel="noreferrer">Open the starter repository →</a>
+            </div>
+            <details>
+              <summary>Additional instructions for newer GitHub users</summary>
+              <p>A fork is your own copy of the repository. Changes in your fork do not change the original lab repository. Confirm that the owner shown above the repository name is your GitHub username before continuing.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 0.2 · Create a Codespace from your fork</h3>
+            <ul>
+              <li>From <strong>your fork</strong>, select the green <strong>Code</strong> button.</li>
+              <li>Select the <strong>Codespaces</strong> tab.</li>
+              <li>Select <strong>Create codespace on main</strong>.</li>
+              <li>Wait for the browser-based VS Code environment to finish loading and dependencies to install.</li>
+            </ul>
+            <details>
+              <summary>Additional instructions for newer GitHub users</summary>
+              <p>A Codespace is a complete development environment in the browser. If GitHub asks which repository to use, make sure you select the fork owned by your account—not the original <strong>adu103</strong> repository.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 0.3 · Run the application and baseline checks</h3>
+            <ul>
+              <li>Open the terminal in the Codespace using <strong>Terminal → New Terminal</strong>.</li>
+              <li>Run the test, lint, and build commands below. All three must pass before you change code.</li>
+              <li>Run the development server.</li>
+              <li>When the port notification appears, select <strong>Open in Browser</strong> and confirm the request tracker loads.</li>
+            </ul>
+            <div class="prompt"><button class="copy-button">Copy</button><pre>npm test
+npm run lint
+npm run build
+npm run dev</pre></div>
+            <details>
+              <summary>Additional instructions if a command fails</summary>
+              <p>First run <code>npm install</code>, then retry the failed command. If the development server starts but no browser opens, open the Codespace <strong>Ports</strong> tab and select the globe icon beside port 5173.</p>
+            </details>
+          </div>
+
+          <div class="callout">
+            <strong>Checkpoint</strong>
+            <p>Before moving on, confirm that you can see the request tracker and all three checks pass.</p>
+          </div>
+        </section>
+
+        <section class="phase" id="context">
+          <div class="phase-heading">
+            <div class="phase-number">1</div>
+            <div>
+              <span class="eyebrow">Repository context · 15 minutes</span>
+              <h2>Tell Copilot how this team builds.</h2>
+              <p>Create repository-wide custom instructions before asking Copilot to plan or implement.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 1.1 · Ask Copilot to explain the repository</h3>
+            <ul>
+              <li>Open Copilot Chat in your Codespace.</li>
+              <li>Select <strong>Ask</strong> mode so Copilot explains without editing files.</li>
+              <li>Submit the prompt below.</li>
+              <li>Compare its response with the files in <code>src</code>, <code>src/lib</code>, and <code>package.json</code>.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Explore this repository and explain:
+1. the application architecture and data flow,
+2. where business logic and tests live,
+3. the commands used to test, lint, and build,
+4. the existing coding and accessibility patterns.
+Do not change any files.</pre>
+            </div>
+            <details>
+              <summary>Additional instructions for using Copilot Chat</summary>
+              <p>Select the Copilot icon in the Codespace activity bar. The mode selector appears near the chat input. If Ask mode is not shown, use the default chat mode and keep the final “Do not change any files” instruction.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 1.2 · Create repository-wide custom instructions</h3>
+            <ul>
+              <li>Submit the prompt below in Copilot Chat.</li>
+              <li>Read the proposed instructions before allowing Copilot to create the file.</li>
+              <li>Confirm the file is named <code>.github/copilot-instructions.md</code>.</li>
+              <li>Remove anything specific to only one feature; keep durable team standards.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Draft repository-wide Copilot instructions for this project.
+Keep them concise and specific. Include:
+- strict TypeScript and no `any`,
+- React functional components and existing patterns,
+- pure business logic in `src/lib` with Vitest coverage,
+- semantic HTML and accessible labels,
+- reuse of the existing CSS variables and visual style,
+- run tests, lint, and build before declaring work complete,
+- avoid new dependencies unless they are necessary.
+
+Show me the proposed file before creating it.</pre>
+            </div>
+            <details>
+              <summary>What makes good custom instructions?</summary>
+              <p>
+                Good instructions capture durable team standards, not the details of one issue.
+                Keep them close to the code, review them like code, and update them as the project evolves.
+                Copilot will use this file across planning, implementation, and review.
+              </p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 1.3 · Commit the instructions to your fork</h3>
+            <ul>
+              <li>Review the file in the editor one last time.</li>
+              <li>Run the commands below in the terminal.</li>
+              <li>Open your fork on GitHub and confirm the file appears on the <code>main</code> branch.</li>
+            </ul>
+            <div class="prompt"><button class="copy-button">Copy</button><pre>git add .github/copilot-instructions.md
+git commit -m "Add repository Copilot instructions"
+git push</pre></div>
+            <details>
+              <summary>Why the push matters</summary>
+              <p>The coding agent runs from the repository on GitHub, not from unsaved or unpushed files in your Codespace. Pushing the instructions makes them available to both coding agent and Copilot code review.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="phase" id="story-a-plan">
+          <div class="phase-heading">
+            <div class="phase-number">2</div>
+            <div>
+              <span class="eyebrow">Story A · Plan · 15 minutes</span>
+              <h2>Plan a filter for the request queue.</h2>
+              <p>The first story is guided. Use the provided prompts, but review and improve every result before moving on.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 2.1 · Ask Copilot to draft the issue</h3>
+            <ul>
+              <li>Copy the guided prompt below.</li>
+              <li>Open Copilot Chat on GitHub.com or in your Codespace and submit it.</li>
+              <li>Review the result for a clear user story, testable acceptance criteria, edge cases, and test expectations.</li>
+              <li>Ask at least one follow-up question or request one improvement before creating the issue.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Help me draft a GitHub issue for the service-request tracker.
+
+User need: As a service desk analyst, I want to filter the request queue by
+status and priority so I can focus on the work that needs attention.
+
+Write:
+- a concise issue title,
+- a user story,
+- testable acceptance criteria,
+- important edge cases,
+- test expectations.
+
+Use the repository's existing UI and architecture. Do not propose an
+implementation yet.</pre>
+            </div>
+            <details>
+              <summary>What a strong issue should cover</summary>
+              <ul>
+                <li>Status and priority filters can be combined.</li>
+                <li>An unfiltered option is available for each filter.</li>
+                <li>The visible result count updates with the filtered queue.</li>
+                <li>A useful empty state appears when nothing matches.</li>
+                <li>Controls are labeled and keyboard accessible.</li>
+                <li>Filtering logic is unit tested.</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Additional instructions for creating the issue</summary>
+              <p>Return to your fork on GitHub, select the <strong>Issues</strong> tab, then select <strong>New issue</strong>. Paste the final title and body that you reviewed—not the first draft Copilot produced.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 2.2 · Use Plan mode before changing code</h3>
+            <ul>
+              <li>Return to Copilot Chat in the Codespace.</li>
+              <li>Select <strong>Plan</strong> mode.</li>
+              <li>Replace <code>#ISSUE_NUMBER</code> with the issue number you just created.</li>
+              <li>Submit the prompt and read the entire plan.</li>
+              <li>Ask Copilot to revise anything that is missing, unnecessary, or unclear.</li>
+              <li>Do not start implementation until every acceptance criterion is represented.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Using issue #ISSUE_NUMBER and the repository's custom instructions,
+inspect the codebase and create an implementation plan.
+
+Include:
+- files to change and why,
+- data and state changes,
+- accessibility considerations,
+- tests to add or update,
+- validation commands,
+- risks or unclear acceptance criteria.
+
+Do not edit any files yet.</pre>
+            </div>
+            <details>
+              <summary>Additional instructions for reviewing the plan</summary>
+              <p>A good plan should identify likely files without inventing a large redesign, isolate filter logic so it can be tested, preserve the existing summary metrics unless the issue says otherwise, and include accessibility and validation steps. You—not Copilot—decide when the plan is ready.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="phase" id="story-a-build">
+          <div class="phase-heading">
+            <div class="phase-number">3</div>
+            <div>
+              <span class="eyebrow">Story A · Build · 20 minutes</span>
+              <h2>Delegate the issue to coding agent.</h2>
+              <p>Let Copilot work asynchronously from the issue and repository instructions you prepared.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 3.1 · Assign the issue to Copilot</h3>
+            <ul>
+              <li>Open the filtering issue in your fork.</li>
+              <li>In the right sidebar, select <strong>Assignees</strong>.</li>
+              <li>Select <strong>Copilot</strong> and confirm the assignment.</li>
+              <li>If prompted for an environment, use the default environment for your fork.</li>
+              <li>Wait for Copilot to acknowledge the assignment and begin a session.</li>
+            </ul>
+            <div class="callout">
+              <strong>What happens next</strong>
+              <p>
+                Copilot creates a branch, works in a GitHub Actions-powered environment, runs the project
+                checks, and opens a draft pull request. You can continue working while it runs.
+              </p>
+            </div>
+            <details>
+              <summary>Additional instructions if Copilot is not listed</summary>
+              <p>Confirm you are in your fork, not the original repository. Coding agent must also be enabled for your account and repository. If it is unavailable, use Agent mode for this story and follow the same issue and review steps.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 3.2 · Inspect the coding-agent session and draft pull request</h3>
+            <ul>
+              <li>Open the session link shown on the issue and watch the implementation progress.</li>
+              <li>When the draft pull request opens, read its summary and changed files.</li>
+              <li>Confirm the automated tests, lint, and build checks ran successfully.</li>
+              <li>Compare the implementation with every acceptance criterion from the issue.</li>
+              <li>If something is missing, comment on the pull request and mention <code>@copilot</code>.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>@copilot Please revisit the acceptance criterion for the empty state.
+Keep the existing visual style and add a focused test for the filtering helper.</pre>
+            </div>
+            <details>
+              <summary>How to steer without taking the work back</summary>
+              <p>Point Copilot to the missed requirement and describe the expected outcome. Avoid dictating exact code unless the design decision truly belongs to you. The goal is to practice delegating from a well-defined issue.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="phase" id="story-a-review">
+          <div class="phase-heading">
+            <div class="phase-number">4</div>
+            <div>
+              <span class="eyebrow">Story A · Review · 15 minutes</span>
+              <h2>Use Copilot code review, then make the decision.</h2>
+              <p>Copilot expands review coverage; you remain responsible for deciding whether the change is ready.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 4.1 · Request Copilot code review</h3>
+            <ul>
+              <li>Open the Story A draft pull request.</li>
+              <li>In the right sidebar, select <strong>Reviewers</strong>.</li>
+              <li>Select <strong>Copilot</strong>.</li>
+              <li>Wait for the review to finish, then read every comment before changing code.</li>
+            </ul>
+            <details>
+              <summary>Additional instructions for requesting a review</summary>
+              <p>If Copilot already appears as a reviewer, the repository may be configured for automatic reviews. Refresh the pull request and look for a Copilot review under the Conversation or Files changed tab.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 4.2 · Triage the review comments</h3>
+            <ul>
+              <li>For each comment, decide whether it is correct, relevant, and worth changing.</li>
+              <li>Apply simple suggestions directly when appropriate.</li>
+              <li>For changes requiring implementation, mention <code>@copilot</code> and ask it to address the accepted feedback.</li>
+              <li>If you reject a suggestion, be able to explain why.</li>
+              <li>Wait for the checks to pass again after changes are pushed.</li>
+            </ul>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>@copilot Address the review comments that align with the issue's
+acceptance criteria. Explain any comment you choose not to implement.</pre>
+            </div>
+            <details>
+              <summary>Additional instructions for evaluating a review comment</summary>
+              <p>Trace the comment back to the issue, tests, custom instructions, or an observable defect. A confident-sounding suggestion is not automatically correct. Accept it only when it improves the change without adding unnecessary scope.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 4.3 · Perform the human review</h3>
+            <ul>
+              <li>Open <strong>Files changed</strong> and read the final diff.</li>
+              <li>Verify every acceptance criterion from the issue.</li>
+              <li>Confirm the tests cover behavior and edge cases, not only implementation details.</li>
+              <li>Confirm the filter controls are keyboard accessible and understandable without color alone.</li>
+              <li>Confirm the implementation follows <code>.github/copilot-instructions.md</code>.</li>
+              <li>Leave the pull request open and merge-ready; do not merge it during this lab.</li>
+            </ul>
+            <details>
+              <summary>Where to find the pull request</summary>
+              <p>Return to your fork on GitHub and select the <strong>Pull requests</strong> tab. The coding agent's draft pull request should appear there and should also be linked from the Story A issue.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="phase" id="story-b">
+          <div class="phase-heading">
+            <div class="phase-number">5</div>
+            <div>
+              <span class="eyebrow">Story B · Plan, Build, Review · 35 minutes</span>
+              <h2>Repeat the workflow with less guidance.</h2>
+              <p>Add a way to resolve a request. This time, you write the Copilot prompts and build interactively in Agent mode.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 5.1 · Plan: write your own issue-drafting prompt</h3>
+            <p><strong>User need:</strong> As a service desk analyst, I want to mark an active request as resolved so the queue and summary metrics reflect completed work.</p>
+            <ul>
+              <li>Ask Copilot for a concise title and user story.</li>
+              <li>Ask for testable acceptance criteria.</li>
+              <li>Include accessibility and already-resolved edge cases.</li>
+              <li>Ask for test expectations without prescribing the implementation.</li>
+              <li>Review and improve the draft, then create the issue in your fork.</li>
+            </ul>
+            <details>
+              <summary>Additional guidance—not a prompt to copy</summary>
+              <p>A strong issue should ensure open and in-progress requests can be resolved, already-resolved requests do not offer the action, summary metrics update immediately, the action has an accessible name and focus treatment, and the status-update logic is tested. Create it from the <strong>Issues</strong> tab in your fork.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 5.2 · Plan: write your own Plan mode request</h3>
+            <ul>
+              <li>Open Copilot Chat in the Codespace and select <strong>Plan</strong> mode.</li>
+              <li>Reference the Story B issue and the repository custom instructions.</li>
+              <li>Ask Copilot to inspect the codebase before proposing changes.</li>
+              <li>Require the plan to cover files, state changes, accessibility, tests, validation, and risks.</li>
+              <li>Do not tell Copilot which files to edit or what the implementation must be.</li>
+              <li>Review and revise the plan until every acceptance criterion is covered.</li>
+            </ul>
+            <details>
+              <summary>Questions to ask yourself before accepting the plan</summary>
+              <ul>
+                <li>Is the proposed change small and consistent with the existing app?</li>
+                <li>Is status-update logic separated so it can be unit tested?</li>
+                <li>Will the summary values update from the same source of truth?</li>
+                <li>Does the plan address keyboard use and already-resolved requests?</li>
+              </ul>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 5.3 · Build: create a branch and use Agent mode</h3>
+            <ul>
+              <li>Update your local <code>main</code> branch and create a feature branch.</li>
+              <li>Switch Copilot Chat to <strong>Agent</strong> mode.</li>
+              <li>Write your own implementation request using the issue and approved plan.</li>
+              <li>Tell Copilot to follow the custom instructions, add focused tests, and run test, lint, and build checks.</li>
+              <li>Watch the changes as they happen. Pause and redirect Copilot if it moves beyond the issue scope.</li>
+            </ul>
+            <div class="prompt"><button class="copy-button">Copy commands</button><pre>git switch main
+git pull
+git switch -c feature/resolve-request</pre></div>
+            <details>
+              <summary>What your Agent mode request needs to contain</summary>
+              <p>Reference the issue number and approved plan, require compliance with <code>.github/copilot-instructions.md</code>, require focused tests and all validation commands, and ask for a final summary. Write the request yourself rather than copying a supplied prompt.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 5.4 · Build: verify, commit, and open a pull request</h3>
+            <ul>
+              <li>Review every changed file before committing.</li>
+              <li>Run the application and resolve at least one open request.</li>
+              <li>Confirm the action is absent for an already-resolved request.</li>
+              <li>Confirm the queue summary updates immediately.</li>
+              <li>Run all automated checks.</li>
+              <li>Commit, push, and open a pull request linked to the Story B issue.</li>
+            </ul>
+            <div class="prompt"><button class="copy-button">Copy commands</button><pre>npm test
+npm run lint
+npm run build
+git add .
+git commit -m "Add request resolution workflow"
+git push -u origin feature/resolve-request</pre></div>
+            <details>
+              <summary>Additional instructions for opening the pull request</summary>
+              <p>After pushing, GitHub usually shows a <strong>Compare &amp; pull request</strong> banner on your fork. Select it, confirm the base branch is your fork's <code>main</code> branch, ask Copilot to draft a summary if available, review the summary, and create the pull request.</p>
+            </details>
+          </div>
+
+          <div class="step">
+            <h3>Step 5.5 · Review: run Copilot code review and make the final assessment</h3>
+            <ul>
+              <li>Request Copilot as a reviewer on the Story B pull request.</li>
+              <li>Triage each review comment and make only the changes you agree with.</li>
+              <li>Re-run checks after any review-driven changes.</li>
+              <li>Perform your own review against the issue and custom instructions.</li>
+              <li>Compare this interactive workflow with the delegated Story A workflow.</li>
+              <li>Leave the pull request open and merge-ready.</li>
+            </ul>
+            <details>
+              <summary>Additional instructions for the human review</summary>
+              <p>Check correctness, edge cases, accessibility, test quality, maintainability, and unnecessary complexity. Copilot's review is evidence to consider, not the approval decision.</p>
+            </details>
+          </div>
+
+          <div class="callout">
+            <strong>Stop before merge.</strong>
+            <p>This lab ends with reviewed, merge-ready pull requests. Deployment, code scanning, supply-chain security, and operations are intentionally left for the next session.</p>
+          </div>
+        </section>
+
+        <section class="phase" id="wrap">
+          <div class="phase-heading">
+            <div class="phase-number">6</div>
+            <div>
+              <span class="eyebrow">Wrap-up · 10 minutes</span>
+              <h2>Compare the two ways of working.</h2>
+              <p>Both paths use the same issue, repository context, checks, and pull request process.</p>
+            </div>
+          </div>
+
+          <div class="comparison">
+            <article>
+              <h3>Coding agent</h3>
+              <ul>
+                <li>Best for a well-defined, bounded issue.</li>
+                <li>Works asynchronously while you do something else.</li>
+                <li>Returns a draft PR for review and iteration.</li>
+                <li>Benefits heavily from clear acceptance criteria and custom instructions.</li>
+              </ul>
+            </article>
+            <article>
+              <h3>IDE agent mode</h3>
+              <ul>
+                <li>Best when you want to steer decisions as the work unfolds.</li>
+                <li>Keeps the developer close to the code and running application.</li>
+                <li>Makes it easy to pause, inspect, adjust, and continue.</li>
+                <li>Uses the same repository standards and validation commands.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="reflection">
+            <h2>What you should leave knowing</h2>
+            <ul>
+              <li>The quality of the implementation starts with the quality of the issue.</li>
+              <li>Custom instructions carry team standards across the entire workflow.</li>
+              <li>Plan mode is where people shape the approach before code changes.</li>
+              <li>Coding agent and IDE agent mode are two execution choices, not two separate processes.</li>
+              <li>Copilot code review improves coverage and speed; a person still owns approval.</li>
+              <li>GitHub keeps the issue, plan, code, discussion, checks, and decision connected.</li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <h3>Final reflection</h3>
+            <ul>
+              <li>Which story was easier to delegate, and why?</li>
+              <li>Where did Copilot need more context than you expected?</li>
+              <li>Which Copilot code-review comments were valuable? Which were not?</li>
+              <li>What would you add to the custom instructions before starting the next issue?</li>
+              <li>When would you choose coding agent versus IDE Agent mode on your own work?</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
+    <script>
+      const toast = document.getElementById("toast");
+      const defaultSourceRepo = "https://github.com/adu103/gh-lab-test";
+      const pageParts = window.location.hostname.endsWith(".github.io")
+        ? window.location.pathname.split("/").filter(Boolean)
+        : [];
+      const sourceRepo =
+        pageParts.length > 0
+          ? `https://github.com/${window.location.hostname.split(".")[0]}/${pageParts[0]}`
+          : defaultSourceRepo;
+
+      document.querySelectorAll(".source-repo-link").forEach((link) => {
+        link.href = sourceRepo + (link.dataset.path || "");
+      });
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.setTimeout(() => toast.classList.remove("show"), 1500);
+      }
+
+      async function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+      }
+
+      document.querySelectorAll(".copy-button").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const text = button.nextElementSibling.textContent;
+          await copyText(text);
+          button.textContent = "Copied";
+          showToast("Prompt copied");
+          window.setTimeout(() => (button.textContent = "Copy"), 1200);
+        });
+      });
+
+    </script>
+  </body>
+</html>
