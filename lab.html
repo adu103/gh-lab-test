@@ -24,9 +24,9 @@
         --cp-text: #242424;
         --cp-text-muted: #5c5c5c;
         --cp-text-soft: #6f6f6f;
-        --cp-accent: #b11f4b;
-        --cp-accent-hover: #9a1a41;
-        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent: #8250df;
+        --cp-accent-hover: #6e40c9;
+        --cp-accent-soft: rgba(130, 80, 223, 0.1);
         --cp-accent-fg: #ffffff;
         --cp-success: #16a34a;
         --cp-danger: #dc2626;
@@ -37,7 +37,7 @@
         --cp-panel: rgba(255, 255, 255, 0.86);
         --cp-panel-strong: rgba(255, 255, 255, 0.96);
         --cp-sheen: rgba(255, 255, 255, 0.55);
-        --cp-highlight: rgba(177, 31, 75, 0.12);
+        --cp-highlight: rgba(130, 80, 223, 0.14);
       }
       html[data-theme="dark"] {
         color-scheme: dark;
@@ -50,9 +50,9 @@
         --cp-text: #dedede;
         --cp-text-muted: #919191;
         --cp-text-soft: #b0b0b0;
-        --cp-accent: #fd8ea1;
-        --cp-accent-hover: #fb7b91;
-        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent: #a475f9;
+        --cp-accent-hover: #b083f0;
+        --cp-accent-soft: rgba(164, 117, 249, 0.16);
         --cp-accent-fg: #1a1a1a;
         --cp-success: #4ade80;
         --cp-danger: #f87171;
@@ -63,7 +63,7 @@
         --cp-panel: rgba(41, 41, 41, 0.72);
         --cp-panel-strong: rgba(41, 41, 41, 0.96);
         --cp-sheen: rgba(255, 255, 255, 0.04);
-        --cp-highlight: rgba(253, 142, 161, 0.12);
+        --cp-highlight: rgba(164, 117, 249, 0.16);
       }
 
       * {
@@ -363,6 +363,14 @@
         margin: 0;
       }
 
+      .step-context {
+        color: var(--cp-text-muted);
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin: 10px 0 14px;
+        max-width: 780px;
+      }
+
       .step > p,
       .step li {
         color: var(--cp-text-muted);
@@ -635,6 +643,7 @@
 
           <div class="step">
             <h3>Step 0.1 · Fork the starter repository</h3>
+            <p class="step-context">A fork creates a personal copy of the project under your GitHub account. You can safely create issues, branches, and pull requests without changing the original lab repository.</p>
             <ul>
               <li>Open the starter repository using the button below.</li>
               <li>Select <strong>Fork</strong> in the upper-right corner.</li>
@@ -653,6 +662,7 @@
 
           <div class="step">
             <h3>Step 0.2 · Create a Codespace from your fork</h3>
+            <p class="step-context">A Codespace is a cloud-hosted development environment with Visual Studio Code, the repository, runtime, and tools already configured. It gives everyone a consistent workspace without installing the project locally.</p>
             <ul>
               <li>From <strong>your fork</strong>, select the green <strong>Code</strong> button.</li>
               <li>Select the <strong>Codespaces</strong> tab.</li>
@@ -667,6 +677,7 @@
 
           <div class="step">
             <h3>Step 0.3 · Run the application and baseline checks</h3>
+            <p class="step-context">Before changing software, confirm that the current version works. This baseline lets you distinguish a problem introduced by your change from one that was already present.</p>
             <ul>
               <li>Open the terminal in the Codespace using <strong>Terminal → New Terminal</strong>.</li>
               <li>Run the test, lint, and build commands below. All three must pass before you change code.</li>
@@ -701,6 +712,7 @@ npm run dev</pre></div>
 
           <div class="step">
             <h3>Step 1.1 · Ask Copilot to explain the repository</h3>
+            <p class="step-context">Start by building shared understanding. Copilot can summarize the architecture and development workflow, but you will verify its explanation against the actual files.</p>
             <ul>
               <li>Open Copilot Chat in your Codespace.</li>
               <li>Select <strong>Ask</strong> mode so Copilot explains without editing files.</li>
@@ -724,6 +736,7 @@ Do not change any files.</pre>
 
           <div class="step">
             <h3>Step 1.2 · Create repository-wide custom instructions</h3>
+            <p class="step-context">Custom instructions capture durable engineering standards once so Copilot can follow the same expectations while planning, building, and reviewing future changes.</p>
             <ul>
               <li>Submit the prompt below in Copilot Chat.</li>
               <li>Read the proposed instructions before allowing Copilot to create the file.</li>
@@ -756,6 +769,7 @@ Show me the proposed file before creating it.</pre>
 
           <div class="step">
             <h3>Step 1.3 · Commit the instructions to your fork</h3>
+            <p class="step-context">Repository instructions only help GitHub-hosted agents after they are committed and pushed. Treat them as shared project configuration that the team reviews like code.</p>
             <ul>
               <li>Review the file in the editor one last time.</li>
               <li>Run the commands below in the terminal.</li>
@@ -783,6 +797,7 @@ git push</pre></div>
 
           <div class="step">
             <h3>Step 2.1 · Ask Copilot to draft the issue</h3>
+            <p class="step-context">A well-shaped issue becomes the contract for implementation and review. Copilot will help turn the user need into clear acceptance criteria, while you remain responsible for refining the result.</p>
             <ul>
               <li>Copy the guided prompt below.</li>
               <li>Open Copilot Chat on GitHub.com or in your Codespace and submit it.</li>
@@ -825,6 +840,7 @@ implementation yet.</pre>
 
           <div class="step">
             <h3>Step 2.2 · Use Plan mode before changing code</h3>
+            <p class="step-context">Plan mode separates deciding how to make the change from making the change. Reviewing the approach first reduces unnecessary edits and exposes missing requirements while they are still inexpensive to fix.</p>
             <ul>
               <li>Return to Copilot Chat in the Codespace.</li>
               <li>Select <strong>Plan</strong> mode.</li>
@@ -867,6 +883,7 @@ Do not edit any files yet.</pre>
 
           <div class="step">
             <h3>Step 3.1 · Assign the issue to Copilot</h3>
+            <p class="step-context">Coding agent is the asynchronous build path. You delegate a bounded issue, and Copilot works in its own environment to produce a draft pull request for you to inspect.</p>
             <ul>
               <li>Open the filtering issue in your fork.</li>
               <li>In the right sidebar, select <strong>Assignees</strong>.</li>
@@ -889,6 +906,7 @@ Do not edit any files yet.</pre>
 
           <div class="step">
             <h3>Step 3.2 · Inspect the coding-agent session and draft pull request</h3>
+            <p class="step-context">Delegation does not remove oversight. The session log, pull-request diff, checks, and acceptance criteria let you understand the work and steer it when the result needs adjustment.</p>
             <ul>
               <li>Open the session link shown on the issue and watch the implementation progress.</li>
               <li>When the draft pull request opens, read its summary and changed files.</li>
@@ -920,6 +938,7 @@ Keep the existing visual style and add a focused test for the filtering helper.<
 
           <div class="step">
             <h3>Step 4.1 · Request Copilot code review</h3>
+            <p class="step-context">Copilot code review provides another set of eyes before a person approves the change. It uses the repository and custom instructions to identify defects, missed cases, and maintainability concerns.</p>
             <ul>
               <li>Open the Story A draft pull request.</li>
               <li>In the right sidebar, select <strong>Reviewers</strong>.</li>
@@ -934,6 +953,7 @@ Keep the existing visual style and add a focused test for the filtering helper.<
 
           <div class="step">
             <h3>Step 4.2 · Triage the review comments</h3>
+            <p class="step-context">Review comments are recommendations, not decisions. Evaluate each one against the issue, code, and project standards before choosing whether and how to act on it.</p>
             <ul>
               <li>For each comment, decide whether it is correct, relevant, and worth changing.</li>
               <li>Apply simple suggestions directly when appropriate.</li>
@@ -954,6 +974,7 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 4.3 · Perform the human review</h3>
+            <p class="step-context">The final approval remains a human responsibility. Validate the behavior, tests, accessibility, and scope rather than relying only on passing checks or Copilot's review.</p>
             <ul>
               <li>Open <strong>Files changed</strong> and read the final diff.</li>
               <li>Verify every acceptance criterion from the issue.</li>
@@ -981,6 +1002,7 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 5.1 · Plan: write your own issue-drafting prompt</h3>
+            <p class="step-context">Now repeat the planning skill with less scaffolding. You have the user need and quality expectations, but you will decide how to give Copilot enough context to draft useful work.</p>
             <p><strong>User need:</strong> As a service desk analyst, I want to mark an active request as resolved so the queue and summary metrics reflect completed work.</p>
             <ul>
               <li>Ask Copilot for a concise title and user story.</li>
@@ -997,6 +1019,7 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 5.2 · Plan: write your own Plan mode request</h3>
+            <p class="step-context">Create the implementation conversation yourself. A strong Plan mode request defines the outcome and constraints without prescribing code that Copilot has not yet investigated.</p>
             <ul>
               <li>Open Copilot Chat in the Codespace and select <strong>Plan</strong> mode.</li>
               <li>Reference the Story B issue and the repository custom instructions.</li>
@@ -1018,6 +1041,7 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 5.3 · Build: create a branch and use Agent mode</h3>
+            <p class="step-context">Agent mode is the interactive build path. Copilot works in your Codespace while you watch the changes, answer questions, and redirect the implementation as it unfolds.</p>
             <ul>
               <li>Update your local <code>main</code> branch and create a feature branch.</li>
               <li>Switch Copilot Chat to <strong>Agent</strong> mode.</li>
@@ -1036,6 +1060,7 @@ git switch -c feature/resolve-request</pre></div>
 
           <div class="step">
             <h3>Step 5.4 · Build: verify, commit, and open a pull request</h3>
+            <p class="step-context">Working code is not complete until you have inspected it, exercised the user experience, run the project checks, and packaged the change for review in a pull request.</p>
             <ul>
               <li>Review every changed file before committing.</li>
               <li>Run the application and resolve at least one open request.</li>
@@ -1058,6 +1083,7 @@ git push -u origin feature/resolve-request</pre></div>
 
           <div class="step">
             <h3>Step 5.5 · Review: run Copilot code review and make the final assessment</h3>
+            <p class="step-context">Use the same review process regardless of whether a person or agent wrote the code. Consistent checks and human approval keep the workflow accountable.</p>
             <ul>
               <li>Request Copilot as a reviewer on the Story B pull request.</li>
               <li>Triage each review comment and make only the changes you agree with.</li>
@@ -1123,6 +1149,7 @@ git push -u origin feature/resolve-request</pre></div>
 
           <div class="step">
             <h3>Final reflection</h3>
+            <p class="step-context">Compare the two complete workflows and identify where each approach fits your own software-development work.</p>
             <ul>
               <li>Which story was easier to delegate, and why?</li>
               <li>Where did Copilot need more context than you expected?</li>
