@@ -1,7 +1,16 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import './App.css'
-import { createRequest, initialRequests, summarizeRequests } from './lib/requests'
-import type { NewServiceRequest, RequestPriority } from './types'
+import {
+  createRequest,
+  filterRequests,
+  initialRequests,
+  summarizeRequests,
+} from './lib/requests'
+import type {
+  NewServiceRequest,
+  RequestPriority,
+  RequestStatus,
+} from './types'
 
 const emptyForm: NewServiceRequest = {
   title: '',
@@ -13,7 +22,17 @@ const emptyForm: NewServiceRequest = {
 function App() {
   const [requests, setRequests] = useState(initialRequests)
   const [form, setForm] = useState<NewServiceRequest>(emptyForm)
+  const [statusFilter, setStatusFilter] = useState<RequestStatus | ''>('')
+  const [priorityFilter, setPriorityFilter] = useState<RequestPriority | ''>('')
   const summary = useMemo(() => summarizeRequests(requests), [requests])
+  const visibleRequests = useMemo(
+    () =>
+      filterRequests(requests, {
+        status: statusFilter || undefined,
+        priority: priorityFilter || undefined,
+      }),
+    [requests, statusFilter, priorityFilter],
+  )
 
   function submitRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -67,11 +86,48 @@ function App() {
                 <p className="eyebrow">Queue</p>
                 <h2>Service requests</h2>
               </div>
-              <span className="count">{requests.length} total</span>
+              <span className="count" aria-live="polite">
+                {visibleRequests.length} of {requests.length} shown
+              </span>
+            </div>
+
+            <div className="queue-filters">
+              <div>
+                <label htmlFor="status-filter">Filter by status</label>
+                <select
+                  id="status-filter"
+                  value={statusFilter}
+                  onChange={(event) =>
+                    setStatusFilter(event.target.value as RequestStatus | '')
+                  }
+                >
+                  <option value="">All statuses</option>
+                  <option>Open</option>
+                  <option>In progress</option>
+                  <option>Resolved</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="priority-filter">Filter by priority</label>
+                <select
+                  id="priority-filter"
+                  value={priorityFilter}
+                  onChange={(event) =>
+                    setPriorityFilter(
+                      event.target.value as RequestPriority | '',
+                    )
+                  }
+                >
+                  <option value="">All priorities</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
             </div>
 
             <div className="request-list">
-              {requests.map((request) => (
+              {visibleRequests.map((request) => (
                 <article className="request-card" key={request.id}>
                   <div className="request-card-top">
                     <span className={`priority priority-${request.priority.toLowerCase()}`}>
@@ -93,6 +149,12 @@ function App() {
                   </div>
                 </article>
               ))}
+              {visibleRequests.length === 0 && (
+                <p className="empty-state">
+                  No requests match these filters. Try changing or clearing a
+                  filter.
+                </p>
+              )}
             </div>
           </section>
 
