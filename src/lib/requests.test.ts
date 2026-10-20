@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { createRequest, filterRequests, summarizeRequests } from './requests'
+import {
+  createRequest,
+  filterRequests,
+  resolveRequest,
+  summarizeRequests,
+  type RequestFilters,
+} from './requests'
 import type { ServiceRequest } from '../types'
 
 const requests: ServiceRequest[] = [
@@ -39,6 +45,181 @@ describe('request helpers', () => {
       open: 1,
       inProgress: 1,
       resolved: 1,
+    })
+  })
+
+  describe('resolving requests', () => {
+    const queue: ServiceRequest[] = [
+      ...requests,
+      { ...requests[0], id: 1004, title: 'Another open request' },
+    ].map((request) => Object.freeze({ ...request }))
+
+    it.each(['Open', 'In progress'] as const)(
+      'resolves an %s request without mutating it or changing other fields',
+      (status) => {
+        const original: ServiceRequest = Object.freeze({
+          ...requests[0],
+          status,
+        })
+        const resolved = resolveRequest(original)
+
+        expect(resolved).toEqual({ ...original, status: 'Resolved' })
+        expect(resolved).not.toBe(original)
+        expect(original.status).toBe(status)
+      },
+    )
+
+    it('leaves an already resolved request unchanged', () => {
+      const original = queue[1]
+      const before = { ...original }
+
+      expect(resolveRequest(original)).toBe(original)
+      expect(original).toEqual(before)
+    })
+
+    it('updates only the selected request, preserving order and other references', () => {
+      const before = queue.map((request) => ({ ...request }))
+      const updated = queue.map((request) =>
+        request.id === 1001 ? resolveRequest(request) : request,
+      )
+
+      expect(updated).toEqual([
+        { ...before[0], status: 'Resolved' },
+        before[1],
+        before[2],
+        before[3],
+      ])
+      expect(updated).toHaveLength(queue.length)
+      expect(updated.map((request) => request.id)).toEqual([1001, 1002, 1003, 1004])
+      expect(updated[0]).not.toBe(queue[0])
+      for (const index of [1, 2, 3]) {
+        expect(updated[index]).toBe(queue[index])
+      }
+      expect(queue).toEqual(before)
+    })
+
+    it.each([
+      { id: 1001, status: 'Open', open: 1, inProgress: 1 },
+      { id: 1003, status: 'In progress', open: 2, inProgress: 0 },
+    ])('updates summary counts when resolving $status', ({ id, open, inProgress }) => {
+      expect(summarizeRequests(queue)).toEqual({
+        total: 4,
+        open: 2,
+        inProgress: 1,
+        resolved: 1,
+      })
+
+      const updated = queue.map((request) =>
+        request.id === id ? resolveRequest(request) : request,
+      )
+
+      expect(summarizeRequests(updated)).toEqual({
+        total: 4,
+        open,
+        inProgress,
+        resolved: 2,
+      })
+    })
+
+    const filterCases: {
+      name: string
+      id: number
+      filters: RequestFilters
+      before: number[]
+      after: number[]
+    }[] = [
+      {
+        name: 'unfiltered queue',
+        id: 1001,
+        filters: {},
+        before: [1001, 1002, 1003, 1004],
+        after: [1001, 1002, 1003, 1004],
+      },
+      {
+        name: 'Open status',
+        id: 1001,
+        filters: { status: 'Open' },
+        before: [1001, 1004],
+        after: [1004],
+      },
+      {
+        name: 'In progress status with the last match resolved',
+        id: 1003,
+        filters: { status: 'In progress' },
+        before: [1003],
+        after: [],
+      },
+      {
+        name: 'Resolved status',
+        id: 1001,
+        filters: { status: 'Resolved' },
+        before: [1002],
+        after: [1001, 1002],
+      },
+      {
+        name: 'priority only',
+        id: 1001,
+        filters: { priority: 'High' },
+        before: [1001, 1004],
+        after: [1001, 1004],
+      },
+      {
+        name: 'combined active status and priority',
+        id: 1001,
+        filters: { status: 'Open', priority: 'High' },
+        before: [1001, 1004],
+        after: [1004],
+      },
+      {
+        name: 'combined Resolved status and matching priority',
+        id: 1001,
+        filters: { status: 'Resolved', priority: 'High' },
+        before: [],
+        after: [1001],
+      },
+      {
+        name: 'combined Resolved status and nonmatching priority',
+        id: 1001,
+        filters: { status: 'Resolved', priority: 'Low' },
+        before: [1002],
+        after: [1002],
+      },
+    ]
+
+    it.each(filterCases)(
+      'updates filtered results for $name without changing the total',
+      ({ id, filters, before, after }) => {
+        expect(filterRequests(queue, filters).map((request) => request.id)).toEqual(
+          before,
+        )
+        const updated = queue.map((request) =>
+          request.id === id ? resolveRequest(request) : request,
+        )
+
+        expect(
+          filterRequests(updated, filters).map((request) => request.id),
+        ).toEqual(after)
+        expect(summarizeRequests(updated).total).toBe(4)
+        expect(updated.find((request) => request.id === id)?.status).toBe('Resolved')
+      },
+    )
+
+    it('keeps summary and filtered results unchanged on repeated resolution', () => {
+      const resolved = queue.map(resolveRequest)
+      const repeated = resolved.map(resolveRequest)
+
+      expect(summarizeRequests(repeated)).toEqual({
+        total: 4,
+        open: 0,
+        inProgress: 0,
+        resolved: 4,
+      })
+      expect(summarizeRequests(repeated)).toEqual(summarizeRequests(resolved))
+      for (const [index, request] of repeated.entries()) {
+        expect(request).toBe(resolved[index])
+      }
+      expect(filterRequests(repeated, { status: 'Open' })).toEqual([])
+      expect(filterRequests(repeated, { status: 'Resolved' })).toEqual(resolved)
     })
   })
 

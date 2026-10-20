@@ -77,6 +77,12 @@ export function filterRequests(
   )
 }
 
+export function resolveRequest(request: ServiceRequest): ServiceRequest {
+  return request.status === 'Resolved'
+    ? request
+    : { ...request, status: 'Resolved' }
+}
+
 export function summarizeRequests(requests: ServiceRequest[]) {
   return {
     total: requests.length,

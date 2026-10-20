@@ -1,15 +1,17 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useRef, useState, type FormEvent } from 'react'
 import './App.css'
 import {
   createRequest,
   filterRequests,
   initialRequests,
+  resolveRequest,
   summarizeRequests,
 } from './lib/requests'
 import type {
   NewServiceRequest,
   RequestPriority,
   RequestStatus,
+  ServiceRequest,
 } from './types'
 
 const emptyForm: NewServiceRequest = {
@@ -24,6 +26,8 @@ function App() {
   const [form, setForm] = useState<NewServiceRequest>(emptyForm)
   const [statusFilter, setStatusFilter] = useState<RequestStatus | ''>('')
   const [priorityFilter, setPriorityFilter] = useState<RequestPriority | ''>('')
+  const [resolutionMessage, setResolutionMessage] = useState('')
+  const queueHeadingRef = useRef<HTMLHeadingElement>(null)
   const summary = useMemo(() => summarizeRequests(requests), [requests])
   const visibleRequests = useMemo(
     () =>
@@ -38,6 +42,16 @@ function App() {
     event.preventDefault()
     setRequests((current) => [createRequest(form, current), ...current])
     setForm(emptyForm)
+  }
+
+  function handleResolve(request: ServiceRequest) {
+    setRequests((current) =>
+      current.map((item) =>
+        item.id === request.id ? resolveRequest(item) : item,
+      ),
+    )
+    setResolutionMessage(`Resolved request #${request.id}: ${request.title}.`)
+    queueHeadingRef.current?.focus()
   }
 
   return (
@@ -84,7 +98,13 @@ function App() {
             <div className="panel-heading">
               <div>
                 <p className="eyebrow">Queue</p>
-                <h2>Service requests</h2>
+                <h2
+                  className="queue-heading"
+                  ref={queueHeadingRef}
+                  tabIndex={-1}
+                >
+                  Service requests
+                </h2>
               </div>
               <span className="count" aria-live="polite">
                 {visibleRequests.length} of {requests.length} shown
@@ -126,6 +146,10 @@ function App() {
               </div>
             </div>
 
+            <p className="resolution-message" role="status">
+              {resolutionMessage}
+            </p>
+
             <div className="request-list">
               {visibleRequests.map((request) => (
                 <article className="request-card" key={request.id}>
@@ -147,6 +171,18 @@ function App() {
                       }).format(new Date(request.submittedAt))}
                     </time>
                   </div>
+                  {request.status !== 'Resolved' && (
+                    <div className="request-actions">
+                      <button
+                        className="primary-button"
+                        type="button"
+                        aria-label={`Resolve request #${request.id}: ${request.title}`}
+                        onClick={() => handleResolve(request)}
+                      >
+                        Resolve
+                      </button>
+                    </div>
+                  )}
                 </article>
               ))}
               {visibleRequests.length === 0 && (

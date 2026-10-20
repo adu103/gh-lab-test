@@ -27,6 +27,16 @@ npm run dev
 
 Open the URL printed by Vite. In a Codespace, select **Open in Browser** when the forwarded port notification appears.
 
+### Resolve service requests
+
+Open and In progress requests have a **Resolve** action on their queue card.
+Resolving changes only that request's status and immediately updates the summary.
+Status and priority filters stay selected; a resolved request disappears from the
+queue if it no longer matches them. Resolved requests do not offer the action.
+
+Request changes are kept only in memory. Reloading restores the sample queue;
+there is no persistence, undo, or reopening action.
+
 ## Validate the project
 
 ```powershell

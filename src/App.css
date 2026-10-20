@@ -240,6 +240,27 @@ main {
   margin-left: auto;
 }
 
+.request-actions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.queue-heading:focus {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.resolution-message {
+  color: var(--text-muted);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.resolution-message:empty {
+  margin: 0;
+}
+
 .form-panel {
   align-self: start;
   position: sticky;
