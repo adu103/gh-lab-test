@@ -656,13 +656,16 @@
               <li>Choose your personal GitHub account as the owner.</li>
               <li>Keep the repository name and the <strong>Copy the main branch only</strong> option.</li>
               <li>Select <strong>Create fork</strong> and wait for GitHub to open your copy.</li>
+              <li>In your fork, select the <strong>Settings</strong> tab.</li>
+              <li>On the <strong>General</strong> settings page, scroll down to <strong>Features</strong>.</li>
+              <li>Select the checkbox next to <strong>Issues</strong> to enable issues in your fork.</li>
             </ul>
             <div class="action-row">
               <a class="button source-repo-link" href="#" target="_blank" rel="noreferrer">Open the starter repository →</a>
             </div>
             <details>
               <summary>Additional instructions for newer GitHub users</summary>
-              <p>A fork is your own copy of the repository. Changes in your fork do not change the original lab repository. Confirm that the owner shown above the repository name is your GitHub username before continuing.</p>
+              <p>A fork is your own copy of the repository. Changes in your fork do not change the original lab repository. Confirm that the owner shown above the repository name is your GitHub username before continuing. If the <strong>Issues</strong> tab is not visible after enabling it, refresh the repository page.</p>
             </details>
           </div>
 
@@ -682,27 +685,20 @@
           </div>
 
           <div class="step">
-            <h3>Step 0.3 · Run the application and baseline checks</h3>
-            <p class="step-context">Before changing software, confirm that the current version works. This baseline lets you distinguish a problem introduced by your change from one that was already present.</p>
+            <h3>Step 0.3 · Install dependencies and run the application</h3>
+            <p class="step-context">Install the project dependencies, then start the development server so you can see the current application before making changes.</p>
             <ul>
               <li>Open the terminal in the Codespace using <strong>Terminal → New Terminal</strong>.</li>
-              <li>Run the test, lint, and build commands below. All three must pass before you change code.</li>
-              <li>Run the development server.</li>
+              <li>Install the project dependencies.</li>
+              <li>Start the development server.</li>
               <li>When the port notification appears, select <strong>Open in Browser</strong> and confirm the request tracker loads.</li>
             </ul>
-            <div class="prompt"><button class="copy-button">Copy</button><pre>npm test
-npm run lint
-npm run build
+            <div class="prompt"><button class="copy-button">Copy</button><pre>npm install
 npm run dev</pre></div>
             <details>
               <summary>Additional instructions if a command fails</summary>
-              <p>First run <code>npm install</code>, then retry the failed command. If the development server starts but no browser opens, open the Codespace <strong>Ports</strong> tab and select the globe icon beside port 5173.</p>
+              <p>Check the terminal output for the specific error and retry the command. If the development server starts but no browser opens, open the Codespace <strong>Ports</strong> tab and select the globe icon beside port 5173.</p>
             </details>
-          </div>
-
-          <div class="callout">
-            <strong>Checkpoint</strong>
-            <p>Before moving on, confirm that you can see the request tracker and all three checks pass.</p>
           </div>
         </section>
 
@@ -731,12 +727,11 @@ npm run dev</pre></div>
 1. the application architecture and data flow,
 2. where business logic and tests live,
 3. the commands used to test, lint, and build,
-4. the existing coding and accessibility patterns.
-Do not change any files.</pre>
+4. the existing coding and accessibility patterns.</pre>
             </div>
             <details>
               <summary>Additional instructions for using Copilot Chat</summary>
-              <p>Select the Copilot icon in the Codespace activity bar. The mode selector appears near the chat input. If Ask mode is not shown, use the default chat mode and keep the final “Do not change any files” instruction.</p>
+              <p>Select the Copilot icon in the Codespace activity bar. The mode selector appears near the chat input. Choose <strong>Ask</strong> mode before submitting the prompt.</p>
             </details>
           </div>
 
@@ -744,8 +739,11 @@ Do not change any files.</pre>
             <h3>Step 1.2 · Create repository-wide custom instructions</h3>
             <p class="step-context">Custom instructions capture durable engineering standards once so Copilot can follow the same expectations while planning, building, and reviewing future changes.</p>
             <ul>
-              <li>Submit the prompt below in Copilot Chat.</li>
-              <li>Read the proposed instructions before allowing Copilot to create the file.</li>
+              <li>In Copilot Chat, select <strong>Agent</strong> mode.</li>
+              <li>Submit the prompt below.</li>
+              <li>Read the proposed instructions before asking Copilot to create the file.</li>
+              <li>If the proposal looks right, reply <strong>Looks good, implement this</strong>.</li>
+              <li>Copilot may ask for permission to create files or run commands. Review each request and approve it when it matches this task.</li>
               <li>Confirm the file is named <code>.github/copilot-instructions.md</code>.</li>
               <li>Remove anything specific to only one feature; keep durable team standards.</li>
             </ul>
@@ -762,6 +760,10 @@ Keep them concise and specific. Include:
 - avoid new dependencies unless they are necessary.
 
 Show me the proposed file before creating it.</pre>
+            </div>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Looks good, implement this.</pre>
             </div>
             <details>
               <summary>What makes good custom instructions?</summary>
@@ -803,12 +805,16 @@ git push</pre></div>
 
           <div class="step">
             <h3>Step 2.1 · Ask Copilot to draft the issue</h3>
-            <p class="step-context">A well-shaped issue becomes the contract for implementation and review. Copilot will help turn the user need into clear acceptance criteria, while you remain responsible for refining the result.</p>
+            <p class="step-context">You are now switching from the IDE in your Codespace to Copilot on GitHub.com. A well-shaped issue becomes the contract for implementation and review, and Copilot can help turn the user need into clear acceptance criteria.</p>
             <ul>
+              <li>Open your fork on <strong>GitHub.com</strong>.</li>
+              <li>Open Copilot Chat on GitHub.com.</li>
               <li>Copy the guided prompt below.</li>
-              <li>Open Copilot Chat on GitHub.com or in your Codespace and submit it.</li>
+              <li>Submit the prompt in Copilot Chat on GitHub.com.</li>
               <li>Review the result for a clear user story, testable acceptance criteria, edge cases, and test expectations.</li>
-              <li>Ask at least one follow-up question or request one improvement before creating the issue.</li>
+              <li>Ask at least one follow-up question or request one improvement.</li>
+              <li>When the issue looks ready, reply <strong>Looks good—create the issue</strong>.</li>
+              <li>Open the newly created issue and confirm it is in your fork.</li>
             </ul>
             <div class="prompt">
               <button class="copy-button">Copy</button>
@@ -827,6 +833,10 @@ Write:
 Use the repository's existing UI and architecture. Do not propose an
 implementation yet.</pre>
             </div>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Looks good—create the issue.</pre>
+            </div>
             <details>
               <summary>What a strong issue should cover</summary>
               <ul>
@@ -840,20 +850,21 @@ implementation yet.</pre>
             </details>
             <details>
               <summary>Additional instructions for creating the issue</summary>
-              <p>Return to your fork on GitHub, select the <strong>Issues</strong> tab, then select <strong>New issue</strong>. Paste the final title and body that you reviewed—not the first draft Copilot produced.</p>
+              <p>If Copilot asks for confirmation before creating the issue, review the repository, title, and body, then approve the action. You can find the result by selecting the <strong>Issues</strong> tab in your fork.</p>
             </details>
           </div>
 
           <div class="step">
             <h3>Step 2.2 · Use Plan mode before changing code</h3>
-            <p class="step-context">Plan mode separates deciding how to make the change from making the change. Reviewing the approach first reduces unnecessary edits and exposes missing requirements while they are still inexpensive to fix.</p>
+            <p class="step-context">Stay on GitHub.com and use Plan mode to decide how the change should be made before any code is changed. Saving the approved plan on the issue keeps the implementation approach visible with the work.</p>
             <ul>
-              <li>Return to Copilot Chat in the Codespace.</li>
+              <li>On <strong>GitHub.com</strong>, open Copilot Chat while viewing your fork.</li>
               <li>Select <strong>Plan</strong> mode.</li>
               <li>Replace <code>#ISSUE_NUMBER</code> with the issue number you just created.</li>
               <li>Submit the prompt and read the entire plan.</li>
               <li>Ask Copilot to revise anything that is missing, unnecessary, or unclear.</li>
-              <li>Do not start implementation until every acceptance criterion is represented.</li>
+              <li>When every acceptance criterion is represented, reply <strong>Looks good—save as a comment on Issue #1</strong>.</li>
+              <li>Open Issue #1 and confirm the implementation plan appears as a comment.</li>
             </ul>
             <div class="prompt">
               <button class="copy-button">Copy</button>
@@ -869,6 +880,10 @@ Include:
 - risks or unclear acceptance criteria.
 
 Do not edit any files yet.</pre>
+            </div>
+            <div class="prompt">
+              <button class="copy-button">Copy</button>
+              <pre>Looks good—save as a comment on Issue #1.</pre>
             </div>
             <details>
               <summary>Additional instructions for reviewing the plan</summary>
@@ -891,7 +906,7 @@ Do not edit any files yet.</pre>
             <h3>Step 3.1 · Assign the issue to Copilot</h3>
             <p class="step-context">Coding agent is the asynchronous build path. You delegate a bounded issue, and Copilot works in its own environment to produce a draft pull request for you to inspect.</p>
             <ul>
-              <li>Open the filtering issue in your fork.</li>
+              <li>Navigate to the issue you created earlier in your fork.</li>
               <li>In the right sidebar, select <strong>Assignees</strong>.</li>
               <li>Select <strong>Copilot</strong> and confirm the assignment.</li>
               <li>If prompted for an environment, use the default environment for your fork.</li>
@@ -946,7 +961,8 @@ Keep the existing visual style and add a focused test for the filtering helper.<
             <h3>Step 4.1 · Request Copilot code review</h3>
             <p class="step-context">Copilot code review provides another set of eyes before a person approves the change. It uses the repository and custom instructions to identify defects, missed cases, and maintainability concerns.</p>
             <ul>
-              <li>Open the Story A draft pull request.</li>
+              <li>On GitHub.com, open your fork and select the <strong>Pull requests</strong> tab.</li>
+              <li>Open the Story A draft pull request created by Copilot.</li>
               <li>In the right sidebar, select <strong>Reviewers</strong>.</li>
               <li>Select <strong>Copilot</strong>.</li>
               <li>Wait for the review to finish, then read every comment before changing code.</li>
