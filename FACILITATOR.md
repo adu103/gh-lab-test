@@ -24,7 +24,7 @@ The lab deliberately removes scaffolding as participants progress:
 
 Complete this at least one day before the workshop:
 
-- Publish the starter repository where every participant can fork it.
+- Publish the starter repository as a GitHub template that every participant can use to create a personal repository.
 - Decide how to distribute the lab:
   - send participants the standalone `lab.html` file, or
   - enable GitHub Pages with **GitHub Actions** as the source.
@@ -32,16 +32,16 @@ Complete this at least one day before the workshop:
 - Confirm Codespaces is available for the repository and participant accounts.
 - Confirm Copilot coding agent is enabled for the organization/repository.
 - Confirm Copilot code review is enabled and can be requested on a test pull request.
-- Confirm GitHub Actions can run in participant forks.
-- Test the lab once using a fresh fork and a non-admin account.
+- Confirm GitHub Actions can run in participant repositories.
+- Test the lab once using a new repository created from the template and a non-admin account.
 
-If your organization limits forking, create a repository from the starter template for each participant or team before the workshop.
+If participants cannot create repositories, create one from the starter template for each participant or team before the workshop.
 
 ## Suggested delivery
 
 | Time | Activity |
 |---|---|
-| 0:00–0:10 | Fork, Codespace, baseline validation |
+| 0:00–0:10 | Create repository from template, Codespace, application launch |
 | 0:10–0:25 | Explore repository and create custom instructions |
 | 0:25–0:40 | Story A: draft issue and review the plan |
 | 0:40–1:00 | Story A: coding agent implementation |
@@ -122,4 +122,4 @@ Move on to IDE agent mode and return to the draft pull request during the review
 
 ## Workshop boundary
 
-Stop with two reviewed, merge-ready pull requests. Do not add deployment, GitHub Advanced Security, attestations, or production operations to this lab. Those topics work better as a separate follow-on session.
+Stop after both reviewed pull requests are merged. Do not add deployment, GitHub Advanced Security, attestations, or production operations to this lab. Those topics work better as a separate follow-on session.

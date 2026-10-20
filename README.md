@@ -1,20 +1,20 @@
 # Build Software with GitHub and GitHub Copilot
 
-This repository contains both the starter application and a self-guided hands-on lab covering the part of the software development lifecycle before merge.
+This template repository contains both the starter application and a self-guided hands-on lab covering planning, building, reviewing, and merging software with GitHub and GitHub Copilot.
 
 ## Start the lab
 
 **Hosted lab:** [Open the Build Software with GitHub and GitHub Copilot lab](https://adu103.github.io/gh-lab-test/)
 
-Keep the lab open in one browser tab. It will direct you back to this repository, which you will fork into your own GitHub account before making any changes.
+Keep the lab open in one browser tab. It will direct you back to this template, which you will use to create a new repository in your own GitHub account before making any changes.
 
 The lab walks through:
 
 1. Shape work as GitHub issues with clear acceptance criteria.
 2. Give Copilot repository context with custom instructions.
-3. Complete Story A from Plan → Build with coding agent → Copilot code review.
-4. Complete Story B from Plan → Build with IDE Agent mode → Copilot code review.
-5. Compare the two ways of working.
+3. Complete Story A from Plan → Build with coding agent → Copilot code review → Merge.
+4. Complete Story B from Plan → Build with IDE Agent mode → Copilot code review → Merge.
+5. Compare the two ways of working and continue the loop with another feature.
 
 The sample application is a deliberately small React and TypeScript service-request tracker. It has enough code and tests for Copilot to reason about, while leaving several realistic features for workshop participants to build.
 

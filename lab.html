@@ -618,8 +618,8 @@
           <div class="repo-setup">
             <strong>This page is the lab. The linked GitHub repository is the workspace.</strong>
             <p class="repo-status">
-              You will keep this page open for instructions, fork the starter repository into your own GitHub account,
-              and complete all work in your fork. Links in this lab point to the starter repository hosted by
+              You will keep this page open for instructions, create a new repository from the starter template,
+              and complete all work in your personal repository. Links in this lab point to the template hosted by
               <strong>adu103</strong>.
             </p>
             <div class="action-row">
@@ -633,8 +633,8 @@
             <div class="phase-number">0</div>
             <div>
               <span class="eyebrow">Get ready · 10 minutes</span>
-              <h2>Fork it, open it, understand it.</h2>
-              <p>Everyone works in their own fork and Codespace, with the same starting point.</p>
+              <h2>Create it, open it, understand it.</h2>
+              <p>Everyone creates their own repository and Codespace from the same starting template.</p>
             </div>
           </div>
 
@@ -642,45 +642,45 @@
             <strong>Before you begin</strong>
             <p>
               You need a GitHub account with Copilot, access to Codespaces, and permission to use
-              Copilot coding agent and Copilot code review in your fork. Confirm that these are
+              Copilot coding agent and Copilot code review in your repository. Confirm that these are
               available before starting the lab.
             </p>
           </div>
 
           <div class="step">
-            <h3>Step 0.1 · Fork the starter repository</h3>
-            <p class="step-context">A fork creates a personal copy of the project under your GitHub account. You can safely create issues, branches, and pull requests without changing the original lab repository.</p>
+            <h3>Step 0.1 · Create a repository from the starter template</h3>
+            <p class="step-context">A repository created from the template gives you an independent copy of the starter project. You can safely create issues, branches, and pull requests without changing the original lab repository.</p>
             <ul>
               <li>Open the starter repository using the button below.</li>
-              <li>Select <strong>Fork</strong> in the upper-right corner.</li>
-              <li>Choose your personal GitHub account as the owner.</li>
-              <li>Keep the repository name and the <strong>Copy the main branch only</strong> option.</li>
-              <li>Select <strong>Create fork</strong> and wait for GitHub to open your copy.</li>
-              <li>In your fork, select the <strong>Settings</strong> tab.</li>
+              <li>Select <strong>Use this template</strong>, then select <strong>Create a new repository</strong>.</li>
+              <li>Choose your personal GitHub account as the repository owner.</li>
+              <li>Name the repository and choose its visibility.</li>
+              <li>Select <strong>Create repository</strong> and wait for GitHub to open it.</li>
+              <li>In your new repository, select the <strong>Settings</strong> tab.</li>
               <li>On the <strong>General</strong> settings page, scroll down to <strong>Features</strong>.</li>
-              <li>Select the checkbox next to <strong>Issues</strong> to enable issues in your fork.</li>
+              <li>Select the checkbox next to <strong>Issues</strong> to enable issues.</li>
             </ul>
             <div class="action-row">
               <a class="button source-repo-link" href="#" target="_blank" rel="noreferrer">Open the starter repository →</a>
             </div>
             <details>
               <summary>Additional instructions for newer GitHub users</summary>
-              <p>A fork is your own copy of the repository. Changes in your fork do not change the original lab repository. Confirm that the owner shown above the repository name is your GitHub username before continuing. If the <strong>Issues</strong> tab is not visible after enabling it, refresh the repository page.</p>
+              <p>A template creates a new repository with its own history, settings, issues, branches, and pull requests. Confirm that the owner shown above the repository name is your GitHub username before continuing. If the <strong>Issues</strong> tab is not visible after enabling it, refresh the repository page.</p>
             </details>
           </div>
 
           <div class="step">
-            <h3>Step 0.2 · Create a Codespace from your fork</h3>
+            <h3>Step 0.2 · Create a Codespace from your repository</h3>
             <p class="step-context">A Codespace is a cloud-hosted development environment with Visual Studio Code, the repository, runtime, and tools already configured. It gives everyone a consistent workspace without installing the project locally.</p>
             <ul>
-              <li>From <strong>your fork</strong>, select the green <strong>Code</strong> button.</li>
+              <li>From <strong>your new repository</strong>, select the green <strong>Code</strong> button.</li>
               <li>Select the <strong>Codespaces</strong> tab.</li>
               <li>Select <strong>Create codespace on main</strong>.</li>
               <li>Wait for the browser-based VS Code environment to finish loading and dependencies to install.</li>
             </ul>
             <details>
               <summary>Additional instructions for newer GitHub users</summary>
-              <p>A Codespace is a complete development environment in the browser. If GitHub asks which repository to use, make sure you select the fork owned by your account—not the original <strong>adu103</strong> repository.</p>
+              <p>A Codespace is a complete development environment in the browser. If GitHub asks which repository to use, make sure you select the new repository owned by your account—not the original <strong>adu103</strong> template.</p>
             </details>
           </div>
 
@@ -776,12 +776,12 @@ Show me the proposed file before creating it.</pre>
           </div>
 
           <div class="step">
-            <h3>Step 1.3 · Commit the instructions to your fork</h3>
+            <h3>Step 1.3 · Commit the instructions to your repository</h3>
             <p class="step-context">Repository instructions only help GitHub-hosted agents after they are committed and pushed. Treat them as shared project configuration that the team reviews like code.</p>
             <ul>
               <li>Review the file in the editor one last time.</li>
               <li>Run the commands below in the terminal.</li>
-              <li>Open your fork on GitHub and confirm the file appears on the <code>main</code> branch.</li>
+              <li>Open your repository on GitHub and confirm the file appears on the <code>main</code> branch.</li>
             </ul>
             <div class="prompt"><button class="copy-button">Copy</button><pre>git add .github/copilot-instructions.md
 git commit -m "Add repository Copilot instructions"
@@ -807,14 +807,14 @@ git push</pre></div>
             <h3>Step 2.1 · Ask Copilot to draft the issue</h3>
             <p class="step-context">You are now switching from the IDE in your Codespace to Copilot on GitHub.com. A well-shaped issue becomes the contract for implementation and review, and Copilot can help turn the user need into clear acceptance criteria.</p>
             <ul>
-              <li>Open your fork on <strong>GitHub.com</strong>.</li>
+              <li>Open your repository on <strong>GitHub.com</strong>.</li>
               <li>Open Copilot Chat on GitHub.com.</li>
               <li>Copy the guided prompt below.</li>
               <li>Submit the prompt in Copilot Chat on GitHub.com.</li>
               <li>Review the result for a clear user story, testable acceptance criteria, edge cases, and test expectations.</li>
               <li>Ask at least one follow-up question or request one improvement.</li>
               <li>When the issue looks ready, reply <strong>Looks good—create the issue</strong>.</li>
-              <li>Open the newly created issue and confirm it is in your fork.</li>
+              <li>Open the newly created issue and confirm it is in your repository.</li>
             </ul>
             <div class="prompt">
               <button class="copy-button">Copy</button>
@@ -850,7 +850,7 @@ implementation yet.</pre>
             </details>
             <details>
               <summary>Additional instructions for creating the issue</summary>
-              <p>If Copilot asks for confirmation before creating the issue, review the repository, title, and body, then approve the action. You can find the result by selecting the <strong>Issues</strong> tab in your fork.</p>
+              <p>If Copilot asks for confirmation before creating the issue, review the repository, title, and body, then approve the action. You can find the result by selecting the <strong>Issues</strong> tab in your repository.</p>
             </details>
           </div>
 
@@ -858,7 +858,7 @@ implementation yet.</pre>
             <h3>Step 2.2 · Use Plan mode before changing code</h3>
             <p class="step-context">Stay on GitHub.com and use Plan mode to decide how the change should be made before any code is changed. Saving the approved plan on the issue keeps the implementation approach visible with the work.</p>
             <ul>
-              <li>On <strong>GitHub.com</strong>, open Copilot Chat while viewing your fork.</li>
+              <li>On <strong>GitHub.com</strong>, open Copilot Chat while viewing your repository.</li>
               <li>Select <strong>Plan</strong> mode.</li>
               <li>Replace <code>#ISSUE_NUMBER</code> with the issue number you just created.</li>
               <li>Submit the prompt and read the entire plan.</li>
@@ -906,10 +906,10 @@ Do not edit any files yet.</pre>
             <h3>Step 3.1 · Assign the issue to Copilot</h3>
             <p class="step-context">Coding agent is the asynchronous build path. You delegate a bounded issue, and Copilot works in its own environment to produce a draft pull request for you to inspect.</p>
             <ul>
-              <li>Navigate to the issue you created earlier in your fork.</li>
+              <li>Navigate to the issue you created earlier in your repository.</li>
               <li>In the right sidebar, select <strong>Assignees</strong>.</li>
               <li>Select <strong>Copilot</strong> and confirm the assignment.</li>
-              <li>If prompted for an environment, use the default environment for your fork.</li>
+              <li>If prompted for an environment, use the default environment for your repository.</li>
               <li>Wait for Copilot to acknowledge the assignment and begin a session.</li>
             </ul>
             <div class="callout">
@@ -921,7 +921,7 @@ Do not edit any files yet.</pre>
             </div>
             <details>
               <summary>Additional instructions if Copilot is not listed</summary>
-              <p>Confirm you are in your fork, not the original repository. Coding agent must also be enabled for your account and repository. If it is unavailable, use Agent mode for this story and follow the same issue and review steps.</p>
+              <p>Confirm you are in the repository created from the template, not the original repository. Coding agent must also be enabled for your account and repository. If it is unavailable, use Agent mode for this story and follow the same issue and review steps.</p>
             </details>
           </div>
 
@@ -961,7 +961,7 @@ Keep the existing visual style and add a focused test for the filtering helper.<
             <h3>Step 4.1 · Request Copilot code review</h3>
             <p class="step-context">Copilot code review provides another set of eyes before a person approves the change. It uses the repository and custom instructions to identify defects, missed cases, and maintainability concerns.</p>
             <ul>
-              <li>On GitHub.com, open your fork and select the <strong>Pull requests</strong> tab.</li>
+              <li>On GitHub.com, open your repository and select the <strong>Pull requests</strong> tab.</li>
               <li>Open the Story A draft pull request created by Copilot.</li>
               <li>In the right sidebar, select <strong>Reviewers</strong>.</li>
               <li>Select <strong>Copilot</strong>.</li>
@@ -995,19 +995,25 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
           </div>
 
           <div class="step">
-            <h3>Step 4.3 · Perform the human review</h3>
-            <p class="step-context">The final approval remains a human responsibility. Validate the behavior, tests, accessibility, and scope rather than relying only on passing checks or Copilot's review.</p>
+            <h3>Step 4.3 · Review, merge, and run the completed feature</h3>
+            <p class="step-context">The final approval remains a human responsibility. Review the completed change, merge it into <code>main</code>, then return to your Codespace to pull and run the exact version now stored on GitHub.</p>
             <ul>
               <li>Open <strong>Files changed</strong> and read the final diff.</li>
               <li>Verify every acceptance criterion from the issue.</li>
               <li>Confirm the tests cover behavior and edge cases, not only implementation details.</li>
               <li>Confirm the filter controls are keyboard accessible and understandable without color alone.</li>
               <li>Confirm the implementation follows <code>.github/copilot-instructions.md</code>.</li>
-              <li>Leave the pull request open and merge-ready; do not merge it during this lab.</li>
+              <li>Return to the <strong>Conversation</strong> tab and select <strong>Ready for review</strong> if the pull request is still a draft.</li>
+              <li>Select <strong>Merge pull request</strong>, then confirm the merge.</li>
+              <li>Return to your Codespace and open the terminal.</li>
+              <li>Pull the merged changes from GitHub, then run the application.</li>
+              <li>Open the application and confirm the new filtering feature works.</li>
             </ul>
+            <div class="prompt"><button class="copy-button">Copy commands</button><pre>git pull origin main
+npm run dev</pre></div>
             <details>
               <summary>Where to find the pull request</summary>
-              <p>Return to your fork on GitHub and select the <strong>Pull requests</strong> tab. The coding agent's draft pull request should appear there and should also be linked from the Story A issue.</p>
+              <p>Return to your repository on GitHub and select the <strong>Pull requests</strong> tab. The coding agent's draft pull request should appear there and should also be linked from the Story A issue.</p>
             </details>
           </div>
         </section>
@@ -1024,26 +1030,27 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 5.1 · Plan: write your own issue-drafting prompt</h3>
-            <p class="step-context">Now repeat the planning skill with less scaffolding. You have the user need and quality expectations, but you will decide how to give Copilot enough context to draft useful work.</p>
+            <p class="step-context">Return to your repository on GitHub.com and repeat the planning skill with less scaffolding. You have the user need and quality expectations, but you will decide how to give Copilot enough context to draft useful work.</p>
             <p><strong>User need:</strong> As a service desk analyst, I want to mark an active request as resolved so the queue and summary metrics reflect completed work.</p>
             <ul>
+              <li>On <strong>GitHub.com</strong>, open your repository and Copilot Chat.</li>
               <li>Ask Copilot for a concise title and user story.</li>
               <li>Ask for testable acceptance criteria.</li>
               <li>Include accessibility and already-resolved edge cases.</li>
               <li>Ask for test expectations without prescribing the implementation.</li>
-              <li>Review and improve the draft, then create the issue in your fork.</li>
+              <li>Review and improve the draft, then create the issue in your repository.</li>
             </ul>
             <details>
               <summary>Additional guidance—not a prompt to copy</summary>
-              <p>A strong issue should ensure open and in-progress requests can be resolved, already-resolved requests do not offer the action, summary metrics update immediately, the action has an accessible name and focus treatment, and the status-update logic is tested. Create it from the <strong>Issues</strong> tab in your fork.</p>
+              <p>A strong issue should ensure open and in-progress requests can be resolved, already-resolved requests do not offer the action, summary metrics update immediately, the action has an accessible name and focus treatment, and the status-update logic is tested. Create it from the <strong>Issues</strong> tab in your repository.</p>
             </details>
           </div>
 
           <div class="step">
             <h3>Step 5.2 · Plan: write your own Plan mode request</h3>
-            <p class="step-context">Create the implementation conversation yourself. A strong Plan mode request defines the outcome and constraints without prescribing code that Copilot has not yet investigated.</p>
+            <p class="step-context">Return to your Codespace and create the implementation conversation yourself. A strong Plan mode request defines the outcome and constraints without prescribing code that Copilot has not yet investigated.</p>
             <ul>
-              <li>Open Copilot Chat in the Codespace and select <strong>Plan</strong> mode.</li>
+              <li>In your <strong>Codespace</strong>, open Copilot Chat and select <strong>Plan</strong> mode.</li>
               <li>Reference the Story B issue and the repository custom instructions.</li>
               <li>Ask Copilot to inspect the codebase before proposing changes.</li>
               <li>Require the plan to cover files, state changes, accessibility, tests, validation, and risks.</li>
@@ -1063,17 +1070,17 @@ acceptance criteria. Explain any comment you choose not to implement.</pre>
 
           <div class="step">
             <h3>Step 5.3 · Build: create a branch and use Agent mode</h3>
-            <p class="step-context">Agent mode is the interactive build path. Copilot works in your Codespace while you watch the changes, answer questions, and redirect the implementation as it unfolds.</p>
+            <p class="step-context">Continue working in your Codespace. Agent mode is the interactive build path: Copilot changes the code while you watch, answer questions, and redirect the implementation as it unfolds.</p>
             <ul>
-              <li>Update your local <code>main</code> branch and create a feature branch.</li>
-              <li>Switch Copilot Chat to <strong>Agent</strong> mode.</li>
+              <li>In the Codespace terminal, create a branch named <code>feature/resolve-request</code>.</li>
+              <li>Switch your working branch to <code>feature/resolve-request</code>.</li>
+              <li>In the Codespace, switch Copilot Chat to <strong>Agent</strong> mode.</li>
               <li>Write your own implementation request using the issue and approved plan.</li>
               <li>Tell Copilot to follow the custom instructions, add focused tests, and run test, lint, and build checks.</li>
               <li>Watch the changes as they happen. Pause and redirect Copilot if it moves beyond the issue scope.</li>
             </ul>
-            <div class="prompt"><button class="copy-button">Copy commands</button><pre>git switch main
-git pull
-git switch -c feature/resolve-request</pre></div>
+            <div class="prompt"><button class="copy-button">Copy commands</button><pre>git branch feature/resolve-request
+git switch feature/resolve-request</pre></div>
             <details>
               <summary>What your Agent mode request needs to contain</summary>
               <p>Reference the issue number and approved plan, require compliance with <code>.github/copilot-instructions.md</code>, require focused tests and all validation commands, and ask for a final summary. Write the request yourself rather than copying a supplied prompt.</p>
@@ -1089,7 +1096,12 @@ git switch -c feature/resolve-request</pre></div>
               <li>Confirm the action is absent for an already-resolved request.</li>
               <li>Confirm the queue summary updates immediately.</li>
               <li>Run all automated checks.</li>
-              <li>Commit, push, and open a pull request linked to the Story B issue.</li>
+              <li>Commit and push the branch.</li>
+              <li>Navigate to your repository on <strong>GitHub.com</strong>.</li>
+              <li>At the top of the repository, find the message that <code>feature/resolve-request</code> had recent pushes.</li>
+              <li>Select <strong>Compare &amp; pull request</strong>.</li>
+              <li>On the pull-request page, under <strong>Add a description</strong>, select <strong>Copilot</strong>, then select <strong>Summary</strong>.</li>
+              <li>Review the generated description, then select <strong>Create pull request</strong>.</li>
             </ul>
             <div class="prompt"><button class="copy-button">Copy commands</button><pre>npm test
 npm run lint
@@ -1099,20 +1111,21 @@ git commit -m "Add request resolution workflow"
 git push -u origin feature/resolve-request</pre></div>
             <details>
               <summary>Additional instructions for opening the pull request</summary>
-              <p>After pushing, GitHub usually shows a <strong>Compare &amp; pull request</strong> banner on your fork. Select it, confirm the base branch is your fork's <code>main</code> branch, ask Copilot to draft a summary if available, review the summary, and create the pull request.</p>
+              <p>Before creating the pull request, confirm the base branch is your repository's <code>main</code> branch and the compare branch is <code>feature/resolve-request</code>. Make sure the generated description links to the Story B issue and accurately explains the change and validation performed.</p>
             </details>
           </div>
 
           <div class="step">
-            <h3>Step 5.5 · Review: run Copilot code review and make the final assessment</h3>
-            <p class="step-context">Use the same review process regardless of whether a person or agent wrote the code. Consistent checks and human approval keep the workflow accountable.</p>
+            <h3>Step 5.5 · Review, approve, and merge the pull request</h3>
+            <p class="step-context">Use the same review process regardless of whether a person or agent wrote the code. Evaluate Copilot's feedback, complete the human review, and merge the finished change into <code>main</code>.</p>
             <ul>
               <li>Request Copilot as a reviewer on the Story B pull request.</li>
               <li>Triage each review comment and make only the changes you agree with.</li>
               <li>Re-run checks after any review-driven changes.</li>
               <li>Perform your own review against the issue and custom instructions.</li>
               <li>Compare this interactive workflow with the delegated Story A workflow.</li>
-              <li>Leave the pull request open and merge-ready.</li>
+              <li>If another participant is reviewing your work, ask them to submit an <strong>Approve</strong> review. GitHub does not allow you to approve your own pull request.</li>
+              <li>When the pull request is ready and all checks pass, select <strong>Merge pull request</strong> and confirm the merge.</li>
             </ul>
             <details>
               <summary>Additional instructions for the human review</summary>
@@ -1121,8 +1134,8 @@ git push -u origin feature/resolve-request</pre></div>
           </div>
 
           <div class="callout">
-            <strong>Stop before merge.</strong>
-            <p>This lab ends with reviewed, merge-ready pull requests. Deployment, code scanning, supply-chain security, and operations are intentionally left for the next session.</p>
+            <strong>Story B complete</strong>
+            <p>You have now taken two features through planning, implementation, Copilot code review, human review, and merge using two different build approaches.</p>
           </div>
         </section>
 
@@ -1134,6 +1147,18 @@ git push -u origin feature/resolve-request</pre></div>
               <h2>Compare the two ways of working.</h2>
               <p>Both paths use the same issue, repository context, checks, and pull request process.</p>
             </div>
+          </div>
+
+          <div class="step">
+            <h3>Step 6.0 · Keep using the same loop</h3>
+            <p class="step-context">The workflow is designed to repeat. Choose another small user need, shape it into a clear issue, plan the work, build it with the Copilot approach that fits, review the pull request, and merge it.</p>
+            <ul>
+              <li>Try adding another feature to the service-request tracker.</li>
+              <li>A dark theme would be a useful next story: define how the user switches themes, how the preference is preserved, and what accessible contrast means for the application.</li>
+              <li>Write the issue and acceptance criteria yourself rather than copying a supplied prompt.</li>
+              <li>Choose coding agent for well-bounded delegated work or IDE Agent mode when you want to steer interactively.</li>
+              <li>Repeat the same Plan → Build → Review → Merge loop.</li>
+            </ul>
           </div>
 
           <div class="comparison">
