@@ -142,6 +142,32 @@ main {
   margin-bottom: 20px;
 }
 
+.queue-filters {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 20px;
+}
+
+.queue-filters > div {
+  display: grid;
+  gap: 8px;
+}
+
+.queue-filters label {
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.empty-state {
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+}
+
 .panel h2,
 .panel p {
   margin-top: 0;
@@ -286,5 +312,9 @@ textarea {
     align-items: start;
     flex-direction: column;
     gap: 20px;
+  }
+
+  .queue-filters {
+    grid-template-columns: 1fr;
   }
 }

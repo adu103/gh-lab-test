@@ -1,4 +1,14 @@
-import type { NewServiceRequest, ServiceRequest } from '../types'
+import type {
+  NewServiceRequest,
+  RequestPriority,
+  RequestStatus,
+  ServiceRequest,
+} from '../types'
+
+export type RequestFilters = {
+  status?: RequestStatus
+  priority?: RequestPriority
+}
 
 export const initialRequests: ServiceRequest[] = [
   {
@@ -54,6 +64,17 @@ export function createRequest(
     status: 'Open',
     submittedAt: new Date().toISOString(),
   }
+}
+
+export function filterRequests(
+  requests: ServiceRequest[],
+  filters: RequestFilters,
+): ServiceRequest[] {
+  return requests.filter(
+    (request) =>
+      (!filters.status || request.status === filters.status) &&
+      (!filters.priority || request.priority === filters.priority),
+  )
 }
 
 export function summarizeRequests(requests: ServiceRequest[]) {
